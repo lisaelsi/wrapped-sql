@@ -6,6 +6,6 @@ So, I'm a big fan of Spotify, and I love seeing my yearly Wrapped playlists. I a
 
 I have used [exportify](https://exportify.net/) to export all wrapped playlists from 2015-2023 into csv files, that I've then imported into my postgres database. 
 
-This is a work in progress and I'm simply trying out different things to see if I can find any cool patterns in my own data! 
+This is a work in progress and I'm simply trying out different things to see if I can find any cool patterns in my own data.
 
 Also, I'm also using pandas to modify my csv files whenever I need to! Very handy. 
