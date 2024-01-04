@@ -1,16 +1,20 @@
+--DROP TABLE IF EXISTS album_songs;
+--DROP TABLE IF EXISTS albums;
 --DROP TABLE IF EXISTS song_genres;
 --DROP TABLE IF EXISTS genres;
---DROP TABLE IF EXISTS artist_songs;
---DROP TABLE IF EXISTS artists;
+--DROP VIEW IF EXISTS song_info;
+--DROP VIEW if exists number_one_songs;
 --DROP TABLE IF EXISTS playlist_songs;
---DROP TABLE IF EXISTS playlists;
+--DROP TABLE IF EXISTS artist_songs;
 --DROP TABLE IF EXISTS songs;
+--DROP TABLE IF EXISTS artists;
+--DROP TABLE IF EXISTS playlists;
+
 
 CREATE TABLE IF NOT EXISTS songs (
     spotify_id TEXT PRIMARY KEY,
     track_name TEXT,
-    album_name TEXT,
-    release_date TEXT,
+    release_date DATE,
     duration INT,
     popularity INT,
     added_by TEXT,
@@ -30,27 +34,28 @@ CREATE TABLE IF NOT EXISTS songs (
 );
 
 CREATE TABLE IF NOT EXISTS artists (
-    artist_id TEXT PRIMARY KEY,
-    artist_name TEXT
+    artist_name TEXT,
+    artist_id TEXT PRIMARY KEY
 );
 
 CREATE TABLE IF NOT EXISTS playlists (
-    playlist_id TEXT PRIMARY KEY,
-    wrapped_year TEXT
+    wrapped_year TEXT,
+    user_id TEXT,
+    playlist_id TEXT PRIMARY KEY
 );
 
 CREATE TABLE IF NOT EXISTS playlist_songs (
-    song_id TEXT,
     playlist_id TEXT,
+    song_id TEXT,
     position INT,
     FOREIGN KEY (song_id) REFERENCES songs,
     FOREIGN KEY (playlist_id) REFERENCES playlists,
-    PRIMARY KEY (position, playlist_id)     
+    PRIMARY KEY (position, playlist_id, song_id)     
 );
 
 CREATE TABLE IF NOT EXISTS artist_songs (
-    artist_id TEXT,
     song_id TEXT,
+    artist_id TEXT,
     FOREIGN KEY (artist_id) REFERENCES artists,
     FOREIGN KEY (song_id) REFERENCES songs,
     PRIMARY KEY (artist_id, song_id)
@@ -62,9 +67,22 @@ CREATE TABLE IF NOT EXISTS genres (
 );
 
 CREATE TABLE IF NOT EXISTS song_genres (
-    genre_id INT,
     song_id TEXT,
+    genre_id INT,
     FOREIGN KEY (song_id) REFERENCES songs,
     FOREIGN KEY (genre_id) REFERENCES genres,
     PRIMARY KEY (song_id, genre_id)
+);
+
+CREATE TABLE IF NOT EXISTS albums (
+    album_name TEXT,
+    album_id INT PRIMARY KEY
+);
+
+CREATE TABLE IF NOT EXISTS album_songs (
+    song_id TEXT,
+    album_id INT,
+    FOREIGN KEY (album_id) REFERENCES albums,
+    FOREIGN KEY (song_id) REFERENCES songs,
+    PRIMARY KEY (album_id, song_id)
 );
